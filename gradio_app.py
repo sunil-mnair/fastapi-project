@@ -1,7 +1,9 @@
+import os
 import gradio as gr
 import requests
 
-USERS_API_URL = "http://127.0.0.1:8000/users"
+API_BASE_URL = os.getenv("API_BASE_URL", "https://fastapi-project-o8t0.onrender.com")
+USERS_API_URL = f"{API_BASE_URL}/users"
 
 auth_token = None
 
@@ -15,7 +17,7 @@ def api_error(response):
 def login_user(email,password):
     global auth_token
     response = requests.post(
-        "http://127.0.0.1:8000/users/login",
+        f"{API_BASE_URL}/users/login",
         json={
             "email": email,
             "password": password
@@ -33,7 +35,7 @@ def get_profile():
     global auth_token
 
     response = requests.get(
-        "http://127.0.0.1:8000/users/profile",
+        f"{API_BASE_URL}/users/profile",
 
         headers={
             "Authorization":
@@ -45,7 +47,7 @@ def get_profile():
 
 def ask_a_openai(prompt):
     response = requests.post(
-        "http://127.0.0.1:8000/chatbot/chat",
+        f"{API_BASE_URL}/chatbot/chat",
         json={"prompt": prompt},
         headers={
             "Authorization":
@@ -88,7 +90,7 @@ def ask_assistant(
     model
 ):
     response = requests.post(
-    "http://127.0.0.1:8000/assistant",
+    f"{API_BASE_URL}/assistant",
 
     json={
         "question":
